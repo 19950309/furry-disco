@@ -1,27 +1,15 @@
-
 #!/usr/bin/python3
-#vim: setfileencoding=utf-8:
-#filename: save_data.py
+# vim: set fileencoding= utf-8
 
-import pandas as pd
 import tushare as ts
+def pull_tushare_data(beg_date, end_date, filename):
+    ts.set_token('ff08684f06ec5a81164471fd1e1c2cca1951bca5fbe34f155ca221fb')
+    pro = ts.pro_api()
+    df = pro.daily(exchange= '',start_date=beg_date, end_date=end_date)
+#    with open(filename,'w') as file_object:
+ #       for index,row in df.iterrows():
+  #           file_object.write(str(index)+ ' ' + str(row) + '\n')
+    df.to_csv(filename)
 
-TOKEN = 'ff08684f06ec5a81164471fd1e1c2cca1951bca5fbe34f155ca221fb'
-
-class SaveData:
-	def __init__(self):
-		self._pro = ts.pro_api(TOKEN)
-		self._ver = ts.__version__
-		print('tushare version: %s.', str(self._ver))
-	
-	def daily_data(self,start_date, end_date):
-		df = self._pro.daily(start_date=start_date, end_date=end_date)
-		print(df)
-
-	
-if __name__ == "__main__":
-	beg_time = '20210901'
-	end_time = '20211216'
-	s = SaveData()
-	s.daily_data(start_date=beg_time, end_date=end_time)
-
+if __name__ == '__main__':
+    pull_tushare_data(beg_date='20211021', end_date='20211113', filename='daily_tushar.txt')
